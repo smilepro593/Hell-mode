@@ -1,0 +1,89 @@
+-- ==============================
+-- HELL MODE – ALL IN ONE
+-- Remake by Smile and Tuffmu
+-- ==============================
+
+if not game:IsLoaded() then
+	game.Loaded:Wait()
+end
+
+local Players = game:GetService("Players")
+local TweenService = game:GetService("TweenService")
+local player = Players.LocalPlayer
+local PlayerGui = player:WaitForChild("PlayerGui")
+
+-- ==============================
+-- TEXT FUNCTION (DOORS STYLE)
+-- ==============================
+local function showText(msg, stay)
+	local gui = Instance.new("ScreenGui")
+	gui.IgnoreGuiInset = true
+	gui.ResetOnSpawn = false
+	gui.Parent = PlayerGui
+
+	local text = Instance.new("TextLabel")
+	text.Size = UDim2.fromScale(0.9, 0.12)
+	text.AnchorPoint = Vector2.new(0.5, 1)
+	text.Position = UDim2.fromScale(0.5, 0.92)
+	text.BackgroundTransparency = 1
+	text.Text = msg
+	text.TextScaled = true
+	text.Font = Enum.Font.GothamBold
+	text.TextWrapped = true
+	text.TextColor3 = Color3.fromRGB(245,235,220)
+	text.TextTransparency = 1
+	text.Parent = gui
+
+	local stroke = Instance.new("UIStroke", text)
+	stroke.Color = Color3.fromRGB(60,40,25)
+	stroke.Thickness = 2
+	stroke.Transparency = 1
+
+	TweenService:Create(text, TweenInfo.new(1), {TextTransparency = 0}):Play()
+	TweenService:Create(stroke, TweenInfo.new(1), {Transparency = 0}):Play()
+
+	task.delay(stay or 2.5, function()
+		TweenService:Create(text, TweenInfo.new(1), {TextTransparency = 1}):Play()
+		TweenService:Create(stroke, TweenInfo.new(1), {Transparency = 1}):Play()
+		task.delay(1, function()
+			gui:Destroy()
+		end)
+	end)
+end
+
+-- ==============================
+-- START TEXT
+-- ==============================
+showText("HELL MODE – Remake Script by Smile and Tuffmu", 3)
+
+-- ==============================
+-- DOOR 1 TEXT
+-- ==============================
+task.spawn(function()
+	local rooms = workspace:WaitForChild("CurrentRooms")
+	while not rooms:FindFirstChild("1") do
+		task.wait()
+	end
+	showText("made by smile and tuffmu", 2.5)
+	task.delay(3, function()
+		showText("good luck!", 2)
+	end)
+end)
+
+-- ==============================
+-- MODE LOADER (ALL IN ONE)
+-- ==============================
+local function run(url)
+	pcall(function()
+		loadstring(game:HttpGet(url, true))()
+	end)
+end
+
+-- Impossible Mode
+run("https://raw.githubusercontent.com/lelele78/Securityproject/refs/heads/main/Impossible%20mode")
+
+-- Broken Mode
+run("https://raw.githubusercontent.com/TheDarkMan1334/Broken-mode/refs/heads/main/BrokenMode%20Version%201.8%20Fix")
+
+-- Ultra Hard Mode
+run("https://raw.githubusercontent.com/Junbbinopro/Doors-ultra-hard-mode/refs/heads/main/Ultra-hard-biGGG")
