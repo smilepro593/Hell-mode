@@ -1,0 +1,115 @@
+-- ==============================
+-- HELL MODE – ALL IN ONE (FINAL)
+-- Remake by Smile and Tuffmu
+-- ==============================
+
+if not game:IsLoaded() then
+	game.Loaded:Wait()
+end
+
+local Players = game:GetService("Players")
+local TweenService = game:GetService("TweenService")
+local player = Players.LocalPlayer
+local PlayerGui = player:WaitForChild("PlayerGui")
+
+-- ==============================
+-- TEXT QUEUE (FIX HIỆN CÙNG LÚC)
+-- ==============================
+local textQueue = {}
+local playing = false
+
+local function playNext()
+	if playing or #textQueue == 0 then return end
+	playing = true
+
+	local data = table.remove(textQueue, 1)
+	local msg, stay = data[1], data[2]
+
+	local gui = Instance.new("ScreenGui")
+	gui.IgnoreGuiInset = true
+	gui.ResetOnSpawn = false
+	gui.Parent = PlayerGui
+
+	local text = Instance.new("TextLabel")
+	text.Size = UDim2.fromScale(0.9, 0.12)
+	text.AnchorPoint = Vector2.new(0.5, 1)
+	text.Position = UDim2.fromScale(0.5, 0.92)
+	text.BackgroundTransparency = 1
+	text.Text = msg
+	text.TextScaled = true
+	text.TextWrapped = true
+	text.Font = Enum.Font.GothamBold
+	text.TextColor3 = Color3.fromRGB(245,235,220)
+	text.TextTransparency = 1
+	text.Parent = gui
+
+	local stroke = Instance.new("UIStroke", text)
+	stroke.Color = Color3.fromRGB(60,40,25)
+	stroke.Thickness = 2
+	stroke.Transparency = 1
+
+	TweenService:Create(text, TweenInfo.new(1), {TextTransparency = 0}):Play()
+	TweenService:Create(stroke, TweenInfo.new(1), {Transparency = 0}):Play()
+
+	task.delay(stay or 2.5, function()
+		TweenService:Create(text, TweenInfo.new(1), {TextTransparency = 1}):Play()
+		TweenService:Create(stroke, TweenInfo.new(1), {Transparency = 1}):Play()
+		task.delay(1, function()
+			gui:Destroy()
+			playing = false
+			playNext()
+		end)
+	end)
+end
+
+local function queueText(msg, stay)
+	table.insert(textQueue, {msg, stay})
+	playNext()
+end
+
+-- ==============================
+-- INTRO TEXT
+-- ==============================
+queueText("HELL MODE – Remake Script by Smile and Tuffmu", 3)
+
+-- ==============================
+-- DOOR 1 TEXT (ĐÚNG THỨ TỰ)
+-- ==============================
+task.spawn(function()
+	local rooms = workspace:WaitForChild("CurrentRooms")
+	while not rooms:FindFirstChild("1") do
+		task.wait()
+	end
+	queueText("made by smile and tuffmu", 2.5)
+	queueText("good luck!", 2)
+end)
+
+-- ==============================
+-- RUN ALL MODES (SONG SONG)
+-- ==============================
+task.delay(1.5, function()
+
+	local function run(url)
+		task.spawn(function()
+			pcall(function()
+				loadstring(game:HttpGet(url, true))()
+			end)
+		end)
+	end
+
+	-- THE FRAGMENTED V5
+	run("https://raw.githubusercontent.com/talales/Nhankg/refs/heads/main/fragmented%20v5")
+
+	-- Broken Mode
+	run("https://raw.githubusercontent.com/TheDarkMan1334/Broken-mode/refs/heads/main/BrokenMode%20Version%201.8%20Fix")
+
+	-- Ultra Hard Mode
+	run("https://raw.githubusercontent.com/Junbbinopro/Doors-ultra-hard-mode/refs/heads/main/Ultra-hard-biGGG")
+
+	-- Hell Mode Remake v2
+	run("https://raw.githubusercontent.com/smilepro593/Hell-mode/refs/heads/main/Hellmoderemakev2.main")
+
+	-- Tuffmu
+	run("https://raw.githubusercontent.com/smilepro593/Hell-mode/refs/heads/main/Tuffmu")
+
+end)
