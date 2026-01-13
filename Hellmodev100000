@@ -1,0 +1,106 @@
+-- ==============================
+-- HELL MODE SCRIPT
+-- by Smile x Tuffmu
+-- ==============================
+
+-- Chạy Hell Mode trước
+pcall(function()
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/smilepro593/Hellmodev100.main/refs/heads/main/Hellmodev1000"))()
+end)
+
+-- ==============================
+-- SPRINT (chạy ngay khi vào game)
+-- ==============================
+pcall(function()
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/trungdepth-dot/Sprint-stamina-v2/refs/heads/main/Sprint", true))()
+end)
+
+-- ==============================
+-- HÀM KIỂM TRA CỬA (door >= 10)
+-- ==============================
+local function GetDoor()
+    local stats = game:GetService("ReplicatedStorage"):FindFirstChild("GameStats")
+    if not stats then return 0 end
+    local v = stats:FindFirstChild("LatestRoom")
+    return v and v.Value or 0
+end
+
+-- ==============================
+-- DANH SÁCH THỰC THỂ
+-- ==============================
+local Entities = {
+
+    function()
+        loadstring(game:HttpGet("https://raw.githubusercontent.com/Junbbinopro/Surge-entity/refs/heads/main/Surge"))()
+    end,
+
+    function()
+        loadstring(game:HttpGet("https://raw.githubusercontent.com/Junbbinopro/Shocker-entity/refs/heads/main/Shocker"))()
+    end,
+
+    function()
+        loadstring(game:HttpGet("https://raw.githubusercontent.com/Junbbinopro/Bluyer-entity/refs/heads/main/Bluyer"))()
+    end,
+
+    function()
+        loadstring(game:HttpGet("https://raw.githubusercontent.com/Junbbinopro/Hungerd/refs/heads/main/Entity"))()
+    end,
+
+    function()
+        loadstring(game:HttpGet("https://raw.githubusercontent.com/eoyoustme/rebouna/refs/heads/main/Ripper%20old2"))()
+    end,
+
+    function()
+        loadstring(game:HttpGet("https://raw.githubusercontent.com/localplayerr/Doors-stuff/refs/heads/main/Immersive%20mode/Detph"))()
+    end,
+
+    function()
+        loadstring(game:HttpGet("https://raw.githubusercontent.com/Junbbinopro/Black-smile/refs/heads/main/Black"))()
+    end,
+
+    function()
+        loadstring(game:HttpGet("https://raw.githubusercontent.com/Junbbinopro/350-entity/refs/heads/main/350"))()
+    end,
+}
+
+-- ==============================
+-- LOGIC SPAWN (XÁC SUẤT)
+-- ==============================
+task.spawn(function()
+    while true do
+        task.wait(math.random(20,40))
+
+        if GetDoor() < 10 then
+            continue
+        end
+
+        local chance = math.random(1,1000000)
+
+        -- 0.0000001% → spawn TẤT CẢ
+        if chance == 1 then
+            for _,spawnEntity in ipairs(Entities) do
+                task.spawn(spawnEntity)
+            end
+
+        -- 0.5% → spawn 2 con
+        elseif chance <= 5000 then
+            for i = 1,2 do
+                local e = Entities[math.random(#Entities)]
+                task.spawn(e)
+            end
+
+        -- 100% còn lại → spawn 1 con
+        else
+            local e = Entities[math.random(#Entities)]
+            task.spawn(e)
+        end
+    end
+end)
+
+-- ==============================
+-- CAPTION (GIỮ KIỂU DOORS GỐC)
+-- ==============================
+pcall(function()
+    require(game.Players.LocalPlayer.PlayerGui.MainUI.Initiator.Main_Game)
+        .caption("HELL MODE SCRIPT • Smile x Tuffmu", true)
+end)
